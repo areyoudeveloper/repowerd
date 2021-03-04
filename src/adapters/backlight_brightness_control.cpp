@@ -157,13 +157,14 @@ void repowerd::BacklightBrightnessControl::set_dim_brightness()
             auto const backlight_brightness = get_brightness_value();
             if (backlight_brightness > 0.0 &&
                 backlight_brightness < dim_brightness)
+                 this->log->log(log_tag, "debug_backlight_brightness_value_dim(%.2f)", backlight_brightness);
             {
                 should_transition = false;
             }
 
             if (should_transition)
                 transition_to_brightness_value(dim_brightness, TransitionSpeed::normal);
-
+ this->log->log(log_tag, "debug_atv_brightval_dim(%.2f)", active_brightness_type);
             active_brightness_type = ActiveBrightnessType::dim;
         }).get();
 }
@@ -282,9 +283,11 @@ void repowerd::BacklightBrightnessControl::transition_to_brightness_value(
 void repowerd::BacklightBrightnessControl::set_brightness_value(double brightness)
 {
     backlight->set_brightness(brightness);
+ log->log(log_tag, "set_bright_val_debug(%.2f)", brightness);   
 }
 
 double repowerd::BacklightBrightnessControl::get_brightness_value()
 {
     return backlight->get_brightness();
+  this->log->log(log_tag, "debug_getting_brightval(%.2f)", get_brightness);   
 }
